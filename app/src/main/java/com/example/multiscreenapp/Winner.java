@@ -23,7 +23,7 @@ TextView textView;
             textView.setText("Restart the Game!");
             winnerName.setText(k);
         }else{
-            String p="The Winner is  "+ winner + "!!!";
+            String p="The Winner is  "+ winner + " !!🥳";
             winnerName.setText(p);
         }
 

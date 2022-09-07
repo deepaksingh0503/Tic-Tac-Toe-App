@@ -1,6 +1,7 @@
 package com.example.multiscreenapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity2 extends AppCompatActivity {
+
     public static final String  EXTRA_WINNER = "com.example.multiscreenapp.extra.WINNER";
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9 ,player1,player2;
     int flag=0;
@@ -18,15 +20,21 @@ public class MainActivity2 extends AppCompatActivity {
     Intent intent;
     String name1;
     String name2;
+    Boolean emojimode;
+    int games=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-       // textview = findViewById(R.id.textView);
+
         init();
+        Bundle bundle = getIntent().getExtras();
+         emojimode = bundle.getBoolean(MainActivity.EXTRA_EMOJIMODE);
         intent = getIntent();
         name1= intent.getStringExtra(MainActivity.EXTRA_NAME1);
         name2= intent.getStringExtra(MainActivity.EXTRA_NAME2);
+
         if(name1.equals("")){
             name1="Player1";
         }
@@ -35,9 +43,15 @@ public class MainActivity2 extends AppCompatActivity {
         }
         String p1;
         String p2;
-             p1=name1+ " -> X";
-             p2=name2+ " -> O";
-             
+        if(emojimode){
+            p1=name1+ " -> \uD83D\uDE0D";
+            p2=name2+ " -> \uD83D\uDE0E";
+        }else{
+            p1=name1+ " -> X";
+            p2=name2+ " -> O";
+        }
+
+
         player1.setText(p1);
         player1.setTextColor(Color.GREEN);
         player2.setTextColor(Color.RED);
@@ -60,20 +74,37 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     public void check(View view) {
+
         Button btnCurrent = (Button) view;
         if (btnCurrent.getText().toString().equals("")) {
             count++;
-            if (flag == 0) {
-                btnCurrent.setText("X");
-                player1.setTextColor(Color.RED);
-                player2.setTextColor(Color.GREEN);
-                flag = 1;
-            } else {
-                btnCurrent.setText("O");
-                player2.setTextColor(Color.RED);
-                player1.setTextColor(Color.GREEN);
-                flag = 0;
+            if(emojimode){
+                if (flag == 0) {
+                    btnCurrent.setText("\uD83D\uDE0D");
+                    player1.setTextColor(Color.RED);
+                    player2.setTextColor(Color.GREEN);
+                    flag = 1;
+                } else {
+                    btnCurrent.setText("\uD83D\uDE0E");
+                    player2.setTextColor(Color.RED);
+                    player1.setTextColor(Color.GREEN);
+                    flag = 0;
+                }
+            }else{
+                if (flag == 0) {
+                    btnCurrent.setText("X");
+                    player1.setTextColor(Color.RED);
+                    player2.setTextColor(Color.GREEN);
+                    flag = 1;
+                } else {
+                    btnCurrent.setText("O");
+                    player2.setTextColor(Color.RED);
+                    player1.setTextColor(Color.GREEN);
+                    flag = 0;
+                }
             }
+
+
 
             if (count >= 5) {
                 b1 = btn1.getText().toString();
@@ -89,7 +120,7 @@ public class MainActivity2 extends AppCompatActivity {
                 Intent intent1=new Intent(this,Winner.class);
                 if (b1.equals(b2) && b2.equals(b3) && !b1.equals("")) {
                     Toast.makeText(this, "Winner is " + b1, Toast.LENGTH_SHORT).show();
-                    if(b1.equals("X")){
+                    if(b1.equals("X") || b1.equals("\uD83D\uDE0D")){
                        winner=name1;
                     }else{
                         winner=name2;
@@ -99,7 +130,7 @@ public class MainActivity2 extends AppCompatActivity {
                     startActivity(intent1);
                 } else if (b4.equals(b5) && b5.equals(b6) && !b4.equals("")) {
                     Toast.makeText(this, "Winner is " + b4, Toast.LENGTH_SHORT).show();
-                    if(b4.equals("X")){
+                    if(b4.equals("X")||b4.equals("\uD83D\uDE0D")){
                         winner=name1;
                     }else{
                         winner=name2;
@@ -109,7 +140,7 @@ public class MainActivity2 extends AppCompatActivity {
                     startActivity(intent1);
                 } else if (b7.equals(b8) && b8.equals(b9) && !b7.equals("")) {
                     Toast.makeText(this, "Winner is " + b7, Toast.LENGTH_SHORT).show();
-                    if(b7.equals("X")){
+                    if(b7.equals("X") ||b7.equals("\uD83D\uDE0D")){
                         winner=name1;
                     }else{
                         winner=name2;
@@ -119,7 +150,7 @@ public class MainActivity2 extends AppCompatActivity {
                     startActivity(intent1);
                 } else if (b2.equals(b5) && b5.equals(b8) && !b2.equals("")) {
                     Toast.makeText(this, "Winner is " + b2, Toast.LENGTH_SHORT).show();
-                    if(b2.equals("X")){
+                    if(b2.equals("X") ||b2.equals("\uD83D\uDE0D")){
                         winner=name1;
                     }else{
                         winner=name2;
@@ -129,7 +160,7 @@ public class MainActivity2 extends AppCompatActivity {
                     startActivity(intent1);
                 } else if (b3.equals(b6) && b6.equals(b9) && !b3.equals("")) {
                     Toast.makeText(this, "Winner is " + b6, Toast.LENGTH_SHORT).show();
-                    if(b3.equals("X")){
+                    if(b3.equals("X")||b3.equals("\uD83D\uDE0D")){
                         winner=name1;
                     }else{
                         winner=name2;
@@ -139,7 +170,7 @@ public class MainActivity2 extends AppCompatActivity {
                     startActivity(intent1);
                 } else if (b1.equals(b4) && b4.equals(b7) && !b1.equals("")) {
                     Toast.makeText(this, "Winner is " + b1, Toast.LENGTH_SHORT).show();
-                    if(b1.equals("X")){
+                    if(b1.equals("X")||b1.equals("\uD83D\uDE0D")){
                         winner=name1;
                     }else{
                         winner=name2;
@@ -149,7 +180,7 @@ public class MainActivity2 extends AppCompatActivity {
                     startActivity(intent1);
                 } else if (b1.equals(b5) && b5.equals(b9) && !b1.equals("")) {
                     Toast.makeText(this, "Winner is " + b1, Toast.LENGTH_SHORT).show();
-                    if(b1.equals("X")){
+                    if(b1.equals("X")||b1.equals("\uD83D\uDE0D")){
                         winner=name1;
                     }else{
                         winner=name2;
@@ -159,7 +190,7 @@ public class MainActivity2 extends AppCompatActivity {
                     startActivity(intent1);
                 } else if (b3.equals(b5) && b5.equals(b7) && !b3.equals("")) {
                     Toast.makeText(this, "Winner is " + b3, Toast.LENGTH_SHORT).show();
-                    if(b3.equals("X")){
+                    if(b3.equals("X")||b3.equals("\uD83D\uDE0D")){
                         winner=name1;
                     }else{
                         winner=name2;
@@ -180,7 +211,7 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     public void resetGame(){
-         flag=1;
+//         flag=1;
          count=0;
         btn1.setText("");
         btn2.setText("");
@@ -191,8 +222,19 @@ public class MainActivity2 extends AppCompatActivity {
         btn7.setText("");
         btn8.setText("");
         btn9.setText("");
-        player1.setTextColor(Color.RED);
-        player2.setTextColor(Color.GREEN);
+
+        if(games%2==0){
+            player1.setTextColor(Color.RED);
+            player2.setTextColor(Color.GREEN);
+            flag=1;
+        }else{
+            player1.setTextColor(Color.GREEN);
+            player2.setTextColor(Color.RED);
+            flag=0;
+        }
+        games++;
+
+
     }
 
 }
